@@ -7,10 +7,16 @@
       <el-table-column prop="goodName" label="商品名称">
       </el-table-column>
       <el-table-column prop="goodPrice" label="价格">
+        <template slot-scope="scope">
+          {{scope.row.goodPrice | goodPriceFormat}}
+        </template>
       </el-table-column>
       <el-table-column prop="goodCount" label="数量">
       </el-table-column>
       <el-table-column prop="totalMoney" label="总价">
+        <template slot-scope="scope">
+          {{scope.row.totalMoney | goodPriceFormat}}
+        </template>
       </el-table-column>
       <el-table-column prop="soldUser" label="卖家名称">
       </el-table-column>

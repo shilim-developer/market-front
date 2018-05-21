@@ -16,6 +16,11 @@
           {{scope.row.status | messageStatusFormat}}
         </template>
       </el-table-column>
+      <el-table-column label="操作" width="80">
+        <template slot-scope="scope">
+          <el-button type="danger" size="small" @click="deleteMessage(scope.row.mId,$event)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <div style="margin-top:20px;text-align:center">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page.current" :page-sizes="[5,10, 20, 50]" :page-size="page.size" layout="total, sizes, prev, pager, next, jumper" :total="page.total">
@@ -25,7 +30,11 @@
 </template>
 
 <script>
-import { init as apiInit, getMessageByPage } from "../../api/api";
+import {
+  init as apiInit,
+  getMessageByPage,
+  deleteMessage
+} from "../../api/api";
 export default {
   data() {
     return {
@@ -64,6 +73,24 @@ export default {
     rowClick(message) {
       this.$router.push({ name: "messageDetail", params: { id: message.mId } });
     },
+    // 删除
+    deleteMessage(id, event) {
+      event.stopPropagation();
+      this.$confirm("确认删除该信息?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          deleteMessage({ messages: JSON.stringify([{ mId: id }]) })
+            .then(res => {
+              this.$message.success("删除成功");
+              this.getMessageList();
+            })
+            .catch(err => {});
+        })
+        .catch(() => {});
+    },
     // 改变每页条数
     handleSizeChange(val) {
       this.page.size = val;
@@ -78,5 +105,4 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>

@@ -15,6 +15,9 @@
       <el-table-column prop="goodName" label="名称">
       </el-table-column>
       <el-table-column prop="goodPrice" label="价格">
+        <template slot-scope="scope">
+          {{scope.row.goodPrice | goodPriceFormat}}
+        </template>
       </el-table-column>
       <el-table-column prop="goodCount" label="数量">
       </el-table-column>
@@ -25,9 +28,9 @@
       </el-table-column>
       <el-table-column label="操作" width="230">
         <template slot-scope="scope">
-          <router-link :to="{ name: 'goodEdition', params: { id: scope.row.gId }}">
-            <el-button type="primary" size="small">编辑</el-button>
-          </router-link>
+          <el-button type="primary" size="small" @click="$router.push({ name: 'goodEdition', params: { id: scope.row.gId }})">
+            编辑
+          </el-button>
           <el-button v-show="scope.row.status == 1" type="default" size="small">下架</el-button>
           <el-button type="danger" size="small" @click="deleteGood(scope.row.gId)">删除</el-button>
         </template>

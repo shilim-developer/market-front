@@ -6,7 +6,7 @@
                 <h1>登录</h1>
                 <el-form ref="form" :model="user">
                     <el-form-item label="">
-                        <el-input v-model="user.username" placeholder="请输入如用户名" @keyup.native.enter="login"></el-input>
+                        <el-input v-model="user.username" placeholder="请输入用户名" @keyup.native.enter="login"></el-input>
                     </el-form-item>
                     <el-form-item label="">
                         <el-input type="password" v-model="user.password" placeholder="请输入密码" @keyup.native.enter="login"></el-input>

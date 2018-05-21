@@ -1,21 +1,31 @@
 <!-- 注册页面 -->
 <template>
-    <el-row type="flex" justify="center" style="margin-top:100px">
+    <el-row type="flex" justify="center" style="margin:100px; 0">
         <el-col :span="8">
             <el-card>
                 <h1>注册</h1>
-                <el-form ref="form" :model="user">
+                <el-form ref="form" :model="user" @keyup.native.enter="register">
                     <el-form-item label="">
-                        <el-input v-model="user.username" placeholder="请输入用户名" @keyup.native.enter="register"></el-input>
+                        <el-input v-model="user.username" placeholder="请输入用户名"></el-input>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input type="password" v-model="user.password" placeholder="请输入密码" @keyup.native.enter="register"></el-input>
+                        <el-input type="password" v-model="user.password" placeholder="请输入密码"></el-input>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input type="surePassword" v-model="user.surePassword" placeholder="请输入确认密码" @keyup.native.enter="register"></el-input>
+                        <el-input type="password" v-model="user.surePassword" placeholder="请输入确认密码"></el-input>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input type="text" v-model="user.phone" placeholder="请输入手机号" @keyup.native.enter="register"></el-input>
+                        <el-input v-model="user.nickname" placeholder="请输入昵称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="user.phone" placeholder="请输入手机号"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="user.email" placeholder="请输入邮箱"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-radio v-model="user.sex" :label="0">男</el-radio>
+                        <el-radio v-model="user.sex" :label="1">女</el-radio>
                     </el-form-item>
                     <el-form-item>
                         <el-button class="btns" type="primary" @click="register">注册</el-button>
@@ -41,7 +51,10 @@ export default {
         username: "",
         password: "",
         surePassword: "",
-        phone: ""
+        phone: "",
+        nickname: "",
+        sex: 0,
+        email: ""
       }
     };
   },

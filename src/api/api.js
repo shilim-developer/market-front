@@ -82,29 +82,32 @@ export const logout = (data, options) => http.post('user/logout.do', data, optio
 export const getUserInfo = (options) => http.post('user/getUserInfo.do', options);
 export const updatePassword = (data, options) => http.post('user/updatePassword.do', data, options);
 export const updatePhone = (data, options) => http.post('user/updatePhone.do', data, options);
+export const updateInformation = (data, options) => http.post('user/updateInformation.do', data, options);
 
 // classify
 export const getAllClassify = (options) => http.post('classify/getAllClassify.do', options);
 
 // good
-export const addGood = (data, options) => http.post('good/addGood.do', data, options);
-export const updateGood = (data, options) => http.post('good/updateGood.do', data, options);
-export const deleteGood = (data, options) => http.post('good/deleteGood.do', data, options);
+export const addGood = (data, options) => http.post('good/user/addGood.do', data, options);
+export const updateGood = (data, options) => http.post('good/user/updateGood.do', data, options);
+export const deleteGood = (data, options) => http.post('good/user/deleteGood.do', data, options);
 export const getGoodByPage = (data, options) => http.post('good/user/getGoodByPage.do', data, options);
 export const getGoodById = (data, options) => http.post('good/getGoodById.do', data, options);
-export const getPageGoodByClassify = (data, options) => http.post('good/user/getPageGoodByClassify.do', data, options);
+export const getPageGoodByClassify = (data, options) => http.post('good/getPageGoodByClassify.do', data, options);
+export const getUserOtherGood = (data, options) => http.post('good/getUserOtherGood.do', data, options);
+export const uploadGoodImage = (data, options) => http.post('good/user/uploadGoodImage.do', data, options);
 
 // order
-export const addOrder = (data, options) => http.post('order/addOrder.do', data, options);
-export const getPageOrderByBuyUserId = (data, options) => http.post('order/getPageOrderByBuyUserId.do', data, options);
-export const getPageOrderBySoldUserId = (data, options) => http.post('order/getPageOrderBySoldUserId.do', data, options);
+export const addOrder = (data, options) => http.post('order/user/addOrder.do', data, options);
+export const getPageOrderByBuyUserId = (data, options) => http.post('order/user/getPageOrderByBuyUserId.do', data, options);
+export const getPageOrderBySoldUserId = (data, options) => http.post('order/user/getPageOrderBySoldUserId.do', data, options);
 export const getPayUrl = (data, options) => http.post('order/user/getPayUrl.do', data, options);
 export const deliver = (data, options) => http.post('order/user/deliver.do', data, options);
 export const receipt = (data, options) => http.post('order/user/receipt.do', data, options);
 
 // message
-export const sendMessage = (data, options) => http.post('message/sendMessage.do', data, options);
-export const readMessage = (data, options) => http.post('message/readMessage.do', data, options);
-export const getMessageByPage = (data, options) => http.post('message/getPageMessageListByToUser.do', data, options);
-export const getMessageById = (data, options) => http.post('message/getMessageById.do', data, options);
-
+export const sendMessage = (data, options) => http.post('message/user/sendMessage.do', data, options);
+export const readMessage = (data, options) => http.post('message/user/readMessage.do', data, options);
+export const getMessageByPage = (data, options) => http.post('message/user/getPageMessageListByToUser.do', data, options);
+export const getMessageById = (data, options) => http.post('message/user/getMessageById.do', data, options);
+export const deleteMessage = (data, options) => http.post('message/user/deleteMessage.do', data, options);

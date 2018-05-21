@@ -4,6 +4,7 @@
         <el-breadcrumb style="padding-left:20px" separator="/">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>个人中心</el-breadcrumb-item>
+            <el-breadcrumb-item>{{$route.name | breadFormat}}</el-breadcrumb-item>
         </el-breadcrumb>
 
         <el-row class="personal-container">
@@ -11,12 +12,6 @@
                 <el-menu class="menu" :router="true">
                     <el-menu-item index="/information">
                         <span slot="title">个人信息</span>
-                    </el-menu-item>
-                    <el-menu-item index="/passwordEdition">
-                        <span slot="title">修改密码</span>
-                    </el-menu-item>
-                    <el-menu-item index="/telephoneEdition">
-                        <span slot="title">修改联系方式</span>
                     </el-menu-item>
                     <el-menu-item index="/myGoods">
                         <span slot="title">我的商品</span>

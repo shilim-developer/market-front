@@ -1,10 +1,32 @@
 <!-- 主要页面 -->
 <template>
   <el-container style="width:auto;overflow: visible;">
+    <div class="w-100 login-tool">
+      <div>
+        <span v-show="user.username.length == 0">
+          <router-link :to="{name:'login'}">[登录]</router-link>
+        </span>
+        <span v-show="user.username.length == 0" class="ml-2">
+          <router-link :to="{name:'register'}">[注册]</router-link>
+        </span>
+        <router-link tag="span" style="cursor: pointer;" v-show="user.username.length > 0" :to="{name:'information'}">
+          {{user.username}}
+        </router-link>
+        <span v-show="user.username.length > 0" style="cursor: pointer;" class="ml-2" @click="logout">注销</span>
+      </div>
+    </div>
     <el-header class="header">
       <div class="head-center">
-        <img class="logo pull-left" src="@/assets/logo.png" height="40">
-        <el-dropdown>
+        <router-link class="pull-left" :to="{name:'home'}">
+          <img class="logo" src="@/assets/logo.png" height="40">
+        </router-link>
+        <div v-if="$route.name === 'home'" class="input-group input-group-sm d-inline-flex" style="width:300px">
+          <input type="text" class="form-control" placeholder="请输入搜索内容" v-model="keyword" @keyup.enter="search">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" @click="search">搜索</button>
+          </div>
+        </div>
+        <!-- <el-dropdown>
           <div class="head-box">
             <span>{{user.username}}</span>
           </div>
@@ -19,7 +41,7 @@
             </router-link>
             <el-dropdown-item @click.native="logout">注销</el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown> -->
       </div>
     </el-header>
     <el-main class="main-container">
@@ -36,19 +58,18 @@ export default {
   data() {
     return {
       user: {
-        usernmae: ""
-      }
+        username: ""
+      },
+      keyword: "",
+      instance: this
     };
   },
 
   components: {},
 
-  computed: {},
-
   created() {
     apiInit(this);
-    localStorage.user ? (this.user = JSON.parse(localStorage.user)) : "";
-    console.log(this.user);
+    if (localStorage.user) this.user = JSON.parse(localStorage.user);
   },
 
   mounted() {},
@@ -57,9 +78,13 @@ export default {
     logout() {
       logout()
         .then(res => {
+          localStorage.removeItem("user");
           this.$router.push({ name: "login" });
         })
         .catch(err => {});
+    },
+    search() {
+      this.$emit("search", this.keyword);
     }
   }
 };
@@ -67,7 +92,16 @@ export default {
 <style scoped>
 /* 登录头 */
 .login-tool {
-  height: 20px;
+  background: #eeeeee;
+}
+.login-tool div {
+  height: 24px;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: right;
+  width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 .min-w {
   display: inline-block;

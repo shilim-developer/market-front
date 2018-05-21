@@ -44,6 +44,12 @@ Vue.filter('goodStatusFormat', (value) => {
     return output;
 });
 
+// 商品价格过滤器
+Vue.filter('goodPriceFormat', (value) => {
+    let output = (value / 100).toFixed(2);
+    return output;
+});
+
 // 订单状态过滤器
 Vue.filter('orderStatusFormat', (value) => {
     let output = '';
@@ -63,6 +69,42 @@ Vue.filter('orderStatusFormat', (value) => {
     }
     return output;
 });
+
+// 面包屑过滤器
+Vue.filter('breadFormat', (value) => {
+    let output = '';
+    switch (value) {
+        case 'information':
+            output = '个人信息';
+            break;
+        case 'passwordEdition':
+            output = '修改密码';
+            break;
+        case 'telephoneEdition':
+            output = '修改联系方式';
+            break;
+        case 'myGoods':
+            output = '我的商品';
+            break;
+        case 'goodAddiction':
+            output = '上架商品';
+            break;
+        case 'orderList':
+            output = '出账订单';
+            break;
+        case 'todoOrderList':
+            output = '入账订单';
+            break;
+        case 'messageList':
+            output = '我的消息';
+            break;
+    }
+    if (value.indexOf('goodEdition') >= 0) {
+        output = '编辑商品'
+    }
+    return output;
+});
+
 
 // 消息状态过滤器
 Vue.filter('messageStatusFormat', (value) => {

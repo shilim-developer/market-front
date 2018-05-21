@@ -1,39 +1,71 @@
 <!-- 商品详情页 -->
 <template>
   <div>
-    <el-breadcrumb style="padding-left:20px" separator="/">
+    <!-- <el-breadcrumb style="padding-left:20px" separator="/">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>商品详情</el-breadcrumb-item>
-    </el-breadcrumb>
+    </el-breadcrumb> -->
 
-    <el-row style="margin-top:20px" type="flex" justify="space-between">
-      <el-card class="good-pic" :body-style="{padding:'0'}">
-        <img class="good-pic" :src="good.goodPics | imageUrlFormat">
-      </el-card>
-      <div class="good-content">
-        <div class="title">{{good.goodName}}</div>
-        <div class="price">¥ {{good.goodPrice}}</div>
-        <div class="surplus">剩余量：{{good.goodSurplus}}</div>
-        <div class="sold-user">
-          <i class="fa fa-user"></i> &nbsp; {{user.username}}
-        </div>
-        <div class="opera">
-          <router-link :to="{ name: 'orderCheck',params:{id:good.gId}}">
-            <el-button type="primary">购买</el-button>
+    <div class="d-flex mt-4">
+      <div style="width:850px">
+        <el-row type="flex" justify="space-between">
+          <el-card class="good-pic" :body-style="{padding:'0'}">
+            <img class="good-pic" :src="good.goodPics | imageUrlFormat">
+          </el-card>
+          <div class="good-content">
+            <div class="title">{{good.goodName}}</div>
+            <div class="price">
+              <span style="font-size:14px">¥</span> {{good.goodPrice | goodPriceFormat}}</div>
+            <div class="surplus">剩余量：{{good.goodSurplus}}</div>
+            <div class="surplus">交易方式：线上交易</div>
+            <div class="sold-user">
+              <i class="fa fa-user"></i> &nbsp; {{user.username}}
+            </div>
+            <div class="opera">
+              <router-link :to="{ name: 'orderCheck',params:{id:good.gId}}">
+                <el-button type="primary">购买</el-button>
+              </router-link>
+              <el-button type="default" @click="messageInputShow = true">留言</el-button>
+            </div>
+          </div>
+        </el-row>
+
+        <el-row style="margin-top:20px">
+          <div class="good-des-label">
+            <div>商品详情</div>
+          </div>
+          <div class="good-des" v-html="good.goodContent">
+            <!-- {{good.goodDescription}} -->
+          </div>
+        </el-row>
+      </div>
+
+      <div style="width:330px">
+        <!-- 我要出售开始 -->
+        <div class="tools ml-4 p-3">
+          <router-link :to="{ name: 'myGoods'}">
+            <el-button class="w-100 mt-3" type="primary">我要出售</el-button>
           </router-link>
-          <el-button type="default" @click="messageInputShow = true">留言</el-button>
+          <img src="@/assets/img/sold_banner.png" alt="" srcset="">
+        </div>
+        <!-- 我要出售结束 -->
+        <!-- 其他商品 -->
+        <div class="tools ml-4 mt-4 p-3" v-show="otherGoodList.length>0">
+          <div class="other-label">他的其他商品</div>
+          <div v-for="item in otherGoodList" :key="item.gId" class="other-good-box">
+            <router-link target="_blank" :to="{name:'goodDetail',params:{id:item.gId}}">
+              <img :src="item.goodPics | imageUrlFormat " class="w-100">
+              <div class="d-flex flex-row mt-1">
+                <span class="other-name text-truncate" style="flex:2">{{item.goodName}}</span>
+                <span class="other-price text-right" style="flex:1">
+                  <span style="font-size:12px">¥</span> {{item.goodPrice | goodPriceFormat}}
+                </span>
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
-    </el-row>
-
-    <el-row style="margin-top:20px">
-      <div class="good-des-label">
-        <div>商品描述</div>
-      </div>
-      <div class="good-des">
-        {{good.goodDescription}}
-      </div>
-    </el-row>
+    </div>
 
     <!-- 留言start -->
     <el-dialog title="留言" :visible.sync="messageInputShow" width="50%">
@@ -48,7 +80,12 @@
 </template>
 
 <script>
-import { init as apiInit, getGoodById, sendMessage } from "../../api/api";
+import {
+  init as apiInit,
+  getGoodById,
+  sendMessage,
+  getUserOtherGood
+} from "../../api/api";
 export default {
   data() {
     return {
@@ -69,7 +106,8 @@ export default {
       message: {
         content: "",
         toUser: 0
-      }
+      },
+      otherGoodList: []
     };
   },
 
@@ -91,6 +129,15 @@ export default {
         .then(res => {
           this.good = res.resultParam.good;
           this.user = res.resultParam.user;
+          this.getUserOtherGood();
+        })
+        .catch(err => {});
+    },
+    // 用户其他商品
+    getUserOtherGood() {
+      getUserOtherGood({ good: JSON.stringify(this.good) })
+        .then(res => {
+          this.otherGoodList = res.resultParam;
         })
         .catch(err => {});
     },
@@ -123,10 +170,11 @@ export default {
 .title {
   font-size: 20px;
   font-weight: bold;
+  color: #065fb4;
 }
 .price {
   font-size: 30px;
-  color: red;
+  color: #ff9800;
   font-weight: bold;
 }
 .surplus,
@@ -147,5 +195,35 @@ export default {
 }
 .good-des {
   padding: 10px;
+  overflow: hidden;
+}
+
+/* 侧边框 */
+.tools {
+  border-radius: 4px;
+  border: 1px solid rgb(235, 238, 245);
+  flex: 1;
+}
+.tools img {
+  width: 100%;
+  margin-top: 20px;
+}
+.other-label {
+  color: rgb(64, 158, 255);
+  text-align: center;
+  font-weight: bold;
+}
+.other-good-box {
+  text-decoration: none;
+}
+.other-good-box a:hover {
+  text-decoration: none;
+}
+.other-name {
+  color: rgb(64, 158, 255);
+}
+.other-price {
+  width: 60px;
+  color: #ff9800;
 }
 </style>

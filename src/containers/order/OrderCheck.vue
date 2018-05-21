@@ -21,7 +21,7 @@
           <td>
             {{order.goodName}}
           </td>
-          <td>{{order.goodPrice}}</td>
+          <td>{{order.goodPrice | goodPriceFormat}}</td>
           <td style="width: 200px;">
             <el-input-number v-model="order.goodCount" @change="handleChange" :min="1" :max="good.goodSurplus"></el-input-number>
           </td>
@@ -33,7 +33,7 @@
     </div>
     <div class="count-box">
       <span>总价：¥
-        <span class="total-price">{{order.totalMoney}}</span>
+        <span class="total-price">{{order.totalMoney | goodPriceFormat}}</span>
       </span>
       <span>
         <el-button type="primary" @click="check">确认订单</el-button>
